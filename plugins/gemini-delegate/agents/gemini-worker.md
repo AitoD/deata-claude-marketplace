@@ -81,18 +81,68 @@ gemini --approval-mode auto_edit "Fix formatting" file.ts 2>&1
 - With specific model: `gemini -m gemini-2.0-flash-exp --approval-mode plan "task" file.py`
 - Quick edits: `gemini --approval-mode auto_edit "task" file.cpp` (use sparingly)
 
+## Status Reporting (CRITICAL)
+
+You MUST provide regular status updates at these points:
+
+### 1. START - Immediately when spawned:
+```
+=== GEMINI WORKER STARTED ===
+Task: [brief description]
+Command: [exact gemini command being run]
+Timestamp: [current time]
+Status: EXECUTING
+===========================
+```
+
+### 2. DURING EXECUTION - If Gemini is interactive:
+- Report any prompts or user interactions needed
+- Show progress indicators if available
+
+### 3. ON ERROR - If anything fails:
+```
+=== GEMINI WORKER ERROR ===
+Task: [brief description]
+Error Type: [e.g., API Error, File Not Found, Permission Denied]
+Error Message: [full error message]
+Command: [command that failed]
+Timestamp: [current time]
+Status: FAILED
+========================
+```
+Stop execution and report immediately - don't continue on errors.
+
+### 4. ON SUCCESS - When completed:
+```
+=== GEMINI WORKER COMPLETED ===
+Task: [brief description]
+Status: SUCCESS
+Output Length: [e.g., 500 lines]
+Files Analyzed: [list of files]
+Timestamp: [current time]
+==========================
+
+[Full Gemini output below]
+[... complete output ...]
+```
+
 ## Output Format
 
 After running Gemini, provide a structured report:
 
-1. **Task Given**: What was delegated
-2. **Gemini Output**: The full response from Gemini CLI
-3. **Files Modified**: List any files Gemini created or modified
-4. **Summary**: Brief summary of what Gemini produced
+1. **Execution Status**: SUCCESS or FAILED
+2. **Task Given**: What was delegated
+3. **Command Executed**: Exact bash command run
+4. **Gemini Output**: The COMPLETE response from Gemini CLI (all output, no truncation)
+5. **Files Modified**: List any files Gemini created or modified
+6. **Summary**: Brief summary of what Gemini produced or why it failed
+7. **Next Steps**: What Claude should do with this output
 
 ## Important
 
 - Always capture both stdout and stderr
-- If Gemini fails to run, report the error
+- NEVER truncate output - include everything Gemini produces
+- If Gemini fails to run, report the error immediately with full details
 - Do not apply changes yourself - just report what Gemini produced
-- Include the full Gemini output so Claude can review it
+- Make it crystal clear whether the task succeeded or failed
+- Include timestamps for debugging

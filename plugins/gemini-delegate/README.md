@@ -5,8 +5,12 @@ Integrate Gemini CLI as a subagent that Claude can delegate work to without inte
 ## Features
 
 - **Background delegation**: Send tasks to Gemini while Claude continues working
+- **Full transparency**: See exactly what Gemini is doing with status updates and logs
+- **Progress monitoring**: Check output file anytime to see current progress
+- **Error reporting**: Immediate notification if something fails, with detailed error info
 - **Review and present**: Claude reviews Gemini's output before presenting to user
 - **Quality control**: Claude assesses and validates Gemini's work
+- **Complete logging**: All output saved to file for later review
 
 ## Prerequisites
 
@@ -33,14 +37,22 @@ Claude may also use the gemini-worker agent internally to parallelize work when 
 
 1. You request a task via `/gemini` or Claude decides to delegate
 2. The gemini-worker agent spawns **in the background** (non-blocking)
-3. **Claude continues working** on other tasks while Gemini runs
-4. Gemini executes the task and produces output
-5. Claude checks results when Gemini completes
-6. Claude reviews the results for correctness
-7. Claude presents a summary with assessment to you
-8. You decide whether to apply the changes
+3. **You get the output file path** - you can check progress anytime
+4. **Claude continues working** on other tasks while Gemini runs
+5. Gemini executes the task and produces output with status updates
+6. **You're notified** when Gemini completes (or if it fails)
+7. Claude checks results and reviews for correctness
+8. Claude presents a summary with assessment showing:
+   - ✓ SUCCESS or ✗ FAILED status
+   - What was produced or why it failed
+   - Full output location for your review
+9. You decide whether to apply the changes
 
-**Key advantage**: Claude doesn't wait idle - it can continue helping you with other tasks while Gemini works in parallel.
+**Key advantages**:
+- Claude doesn't wait idle - continues helping you with other tasks
+- **Full visibility** - check output file anytime to see what's happening
+- **Immediate error notification** - you're told right away if something fails
+- **Complete logs** - all output saved for later review
 
 ## Components
 
