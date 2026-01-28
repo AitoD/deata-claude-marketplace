@@ -1,6 +1,6 @@
 {
   "name": "gemini-delegate",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Delegate tasks to Gemini CLI as a subagent, with Claude reviewing and presenting results",
   "author": {
     "name": "Deata"
