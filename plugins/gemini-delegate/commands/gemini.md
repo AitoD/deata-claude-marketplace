@@ -11,23 +11,30 @@ allowed-tools:
 # Gemini Delegation Command
 
 The user wants to delegate a task to Gemini CLI. You will:
-1. Spawn the gemini-worker agent with the task
-2. Review the results Gemini produces
-3. Present a summary to the user with your analysis
+1. Spawn the gemini-worker agent in the background (non-blocking)
+2. Continue working on other tasks while Gemini runs
+3. Review results when Gemini completes
+4. Present a summary to the user with your analysis
 
 ## Steps
 
-1. **Spawn gemini-worker agent** with the user's task:
+1. **Spawn gemini-worker agent in BACKGROUND**:
    - Use the Task tool with `subagent_type: "gemini-delegate:gemini-worker"`
+   - **CRITICAL**: Set `run_in_background: true` to avoid blocking
    - Pass the user's task description in the prompt
-   - Run in background if it's a long task
+   - Tell user "Gemini is working on this in the background, I'll review when it's done"
+   - Continue with other work while Gemini runs
 
-2. **Review Gemini's output**:
+2. **Check results later**:
+   - Use TaskOutput tool to check on the background agent
+   - Or wait for notification when it completes
+
+3. **Review Gemini's output**:
    - Analyze what Gemini produced
    - Check for correctness and quality
    - Identify any issues or improvements needed
 
-3. **Present to user**:
+4. **Present to user**:
    - Summarize what Gemini did
    - Highlight key changes or code generated
    - Provide your assessment (approve, needs changes, or reject)
@@ -37,14 +44,23 @@ The user wants to delegate a task to Gemini CLI. You will:
 
 User: `/gemini create a Python function to validate email addresses`
 
-You spawn gemini-worker with:
+You immediately spawn gemini-worker in background:
 ```
-prompt: "Create a Python function to validate email addresses using regex. Include docstring and type hints."
+Task(
+  subagent_type: "gemini-delegate:gemini-worker",
+  run_in_background: true,
+  prompt: "Create a Python function to validate email addresses using regex. Include docstring and type hints."
+)
 ```
 
-Then review and present:
+You respond immediately (don't wait):
 ```
-Gemini produced an email validation function. Here's my review:
+I've delegated this to Gemini in the background. While it works on that, is there anything else you'd like me to help with?
+```
+
+Later, when Gemini completes, you review and present:
+```
+Gemini finished! Here's what it produced:
 
 **Generated Code:**
 [show the code]

@@ -32,11 +32,15 @@ Claude may also use the gemini-worker agent internally to parallelize work when 
 ## How It Works
 
 1. You request a task via `/gemini` or Claude decides to delegate
-2. The gemini-worker agent spawns and runs Gemini CLI
-3. Gemini executes the task and produces output
-4. Claude reviews the results for correctness
-5. Claude presents a summary with assessment to you
-6. You decide whether to apply the changes
+2. The gemini-worker agent spawns **in the background** (non-blocking)
+3. **Claude continues working** on other tasks while Gemini runs
+4. Gemini executes the task and produces output
+5. Claude checks results when Gemini completes
+6. Claude reviews the results for correctness
+7. Claude presents a summary with assessment to you
+8. You decide whether to apply the changes
+
+**Key advantage**: Claude doesn't wait idle - it can continue helping you with other tasks while Gemini works in parallel.
 
 ## Components
 

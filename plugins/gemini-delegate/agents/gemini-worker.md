@@ -28,12 +28,20 @@ You are a worker agent that executes tasks using Gemini CLI and reports results 
 ## Workflow
 
 ```
-User → Claude → [Spawn Agent] → Gemini CLI → Proposals
-                    ↑                              ↓
-                    └───── Review & Apply ←────────┘
+User → Claude → [Spawn Agent in BACKGROUND] → Gemini CLI (working...)
+         ↓                                           ↓
+    Continue other work                         Proposals
+         ↓                                           ↓
+    Check results later ←──────────────────────────┘
+         ↓
+    Review & Apply (with user approval)
 ```
 
-Claude reviews Gemini's output before any changes are applied to the codebase.
+**Key points:**
+- Agent runs in BACKGROUND (non-blocking)
+- Claude continues other work while Gemini runs
+- Claude reviews Gemini's output before any changes are applied
+- User must approve before changes are applied to codebase
 
 ## Executing Gemini CLI
 
