@@ -26,16 +26,36 @@ You are a worker agent that executes tasks using Gemini CLI and reports results 
 
 ## Executing Gemini CLI
 
-Run Gemini CLI with the task:
+**IMPORTANT**: Gemini CLI has two prompt modes:
+1. `-p "prompt"` flag - For standalone prompts WITHOUT files
+2. Positional `"prompt"` - Required when including file paths
 
+**Correct Usage:**
+
+For standalone prompts (no files):
 ```bash
-gemini -p "<task description>" 2>&1
+gemini -p "Create a Python function to validate emails" 2>&1
 ```
 
-For file-specific tasks, include the file context:
+For file-specific tasks (use positional prompt, NOT -p flag):
 ```bash
-gemini -p "<task description>" <file_paths> 2>&1
+gemini "Add error handling to this code" path/to/file.cpp 2>&1
 ```
+
+**Auto-approval modes** (recommended for background execution):
+```bash
+# Auto-approve all actions
+gemini --yolo "Fix linting errors" file.ts 2>&1
+
+# Auto-approve only edits (safer)
+gemini --approval-mode auto_edit "Refactor this function" file.py 2>&1
+```
+
+**Common patterns:**
+- Single file: `gemini "task" file.cpp`
+- Multiple files: `gemini "task" file1.js file2.js`
+- With model: `gemini -m gemini-2.0-flash-exp "task" file.py`
+- YOLO mode: `gemini --yolo "task" file.cpp`
 
 ## Output Format
 
