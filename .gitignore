@@ -1,0 +1,13 @@
+# Local settings
+.claude/*.local.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node modules (if any plugins use them)
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc

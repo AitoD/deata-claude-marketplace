@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "deata-claude-marketplace",
+  "version": "1.0.0",
+  "description": "Personal Claude Code plugin marketplace for Deata's custom tools and integrations",
+  "owner": {
+    "name": "Deata",
+    "email": ""
+  },
+  "plugins": [
+    {
+      "name": "gemini-delegate",
+      "description": "Delegate tasks to Gemini CLI as a subagent, with Claude reviewing and presenting results",
+      "version": "0.1.0",
+      "source": "./plugins/gemini-delegate",
+      "category": "development"
+    }
+  ]
+}
